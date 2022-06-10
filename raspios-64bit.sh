@@ -83,9 +83,8 @@ echo $PI_SERIAL_NUMBER > $NFS_DIR/etc/hostname
 # Set up authorized SSH key
 USER_DIR=$NFS_DIR/home/$USERNAME
 mkdir -p $USER_DIR/.ssh
-USER_AND_GROUP="$(stat -c %u:%g $USER_DIR)"
 echo "$SSH_PUBLIC_KEY" > $USER_DIR/.ssh/authorized_keys
-chown -R $USER_AND_GROUP $USER_DIR
+chown -R 1000:1000 $USER_DIR
 
 # Restart services
 systemctl restart rpcbind
