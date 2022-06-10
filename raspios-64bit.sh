@@ -27,9 +27,10 @@ apt install -y nfs-kernel-server kpartx unzip tftpd-hpa
 
 mkdir -p /srv/{tftp,nfs} || true
 
-mkdir /tmp/pxestuff
+PI_TMP_DIR=/tmp/rpi4-netboot-wip/$PI_SERIAL_NUMBER
+mkdir -p $PI_TMP_DIR
 CURRDIR="$PWD"
-cd /tmp/pxestuff
+cd $PI_TMP_DIR
 
 if [[ -z "$STORED_IMAGE_PATH" ]]; then
     wget -O raspios_lite_arm64_latest.img.xz \
@@ -53,7 +54,7 @@ cp -a bootmnt/* $NFS_DIR/boot/
 umount bootmnt/
 umount rootmnt/
 cd "$CURRDIR"
-rm -r /tmp/pxestuff
+rm -r $PI_TMP_DIR
 
 grep "$NFS_DIR/boot" /etc/fstab > /dev/null \
     || echo "$NFS_DIR/boot $TFTP_DIR none defaults,bind 0 0" \
