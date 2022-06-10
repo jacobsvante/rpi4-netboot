@@ -21,6 +21,7 @@ if ! [[ "$(whoami)" == "root"  ]]; then
 fi
 
 set -e
+set -x
 
 apt update
 apt install -y nfs-kernel-server kpartx unzip tftpd-hpa
