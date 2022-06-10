@@ -40,10 +40,10 @@ else
 fi
 
 # Mount raspberry PI image boot and root
-kpartx -a -v raspios_lite_arm64_latest.img
+LOOP_NAME_PREFIX=$(kpartx -a -v raspios_lite_arm64_latest.img 2>&1 | grep -o -e 'loop[0-9]p' | head -1)
 mkdir {bootmnt,rootmnt}
-mount /dev/mapper/loop*p1 bootmnt/
-mount /dev/mapper/loop*p2 rootmnt/
+mount /dev/mapper/${LOOP_NAME_PREFIX}1 bootmnt/
+mount /dev/mapper/${LOOP_NAME_PREFIX}2 rootmnt/
 
 mkdir -p /srv/{nfs,tftp}/${PI_SERIAL_NUMBER} || true
 # NOTE: We allow this failure of the following error:
